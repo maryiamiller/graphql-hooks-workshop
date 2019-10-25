@@ -1,7 +1,8 @@
-import React from 'react'
-import { render } from 'react-dom'
+import React from 'react';
+import { render } from 'react-dom';
 
-import AppShell from '../../app/AppShell'
+import AppShell from '../../app/AppShell';
+import { GraphQLClient, ClientContext } from 'graphql-hooks';
 
 // TODO: Create the GraphQL Hooks Client
 // 1. Import GraphQLClient from graphql-hooks
@@ -14,8 +15,12 @@ import AppShell from '../../app/AppShell'
 // 2. Render it as the AppShell's parent: <ClientContext.Provider>
 // 3. Pass in the value prop as our client we just created value={client}
 
-const App = (
-  <AppShell />
-)
+const client = new GraphQLClient({ url: `http://localhost:3000/graphql` });
 
-render(App, document.getElementById('app-root'))
+const App = (
+  <ClientContext.Provider value={client}>
+    <AppShell />
+  </ClientContext.Provider>
+);
+
+render(App, document.getElementById('app-root'));

@@ -1,19 +1,19 @@
-const fastifyGQL = require('fastify-gql')
+const fastifyGQL = require('fastify-gql');
 
 const userList = [
   {
-    name: 'Brian'
+    name: 'Brian',
   },
   {
-    name: 'Jack'
+    name: 'Jack',
   },
   {
-    name: 'Joe'
+    name: 'Joe',
   },
   {
-    name: 'Kristin'
-  }
-]
+    name: 'Kristin',
+  },
+];
 
 const schema = `
   type User {
@@ -27,30 +27,30 @@ const schema = `
   type Mutation {
     createUser(name: String!): User
   }
-`
+`;
 
 const resolvers = {
   Query: {
     users() {
-      return userList
-    }
+      return userList;
+    },
   },
   Mutation: {
     createUser(_, user) {
-      userList.push(user)
-      return user
-    }
-  }
-}
+      userList.push(user);
+      return user;
+    },
+  },
+};
 
 function registerGraphQL(fastify, opts, next) {
   fastify.register(fastifyGQL, {
     schema,
     resolvers,
-    graphiql: true
-  })
+    graphiql: true,
+  });
 
-  next()
+  next();
 }
 
-module.exports = registerGraphQL
+module.exports = registerGraphQL;

@@ -1,9 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 
-const users = [
-  { name: 'John' },
-  { name: 'Sally' }
-]
+import { useQuery } from 'graphql-hooks';
 
 // TODO: list users from graphql using GraphQL Hooks
 // 1. Import useQuery from graphql-hooks
@@ -29,30 +26,36 @@ const users = [
 // 11. Test it works!
 
 export default function ListUsers() {
-
-  const [name, setName] = useState('')
+  const [name, setName] = useState('');
 
   function createNewUser() {
-    users.push({name})
-    setName('')
+    users.push({ name });
+    setName('');
   }
-
+  const { data } = useQuery(`{
+    users {
+      name
+    }
+  }`);
   return (
     <div>
       <h1>Users List</h1>
       <ul>
-        {users.map((user, i) =>
-          <li key={i}>{user.name}</li>
-        )}
+        {data &&
+          data.users &&
+          data.users.map((user, i) => <li key={i}>{user.name}</li>)}
       </ul>
-      <label>Create User<br />
+      <label>
+        Create User
+        <br />
         <input
-          type='text'
+          type="text"
           onChange={e => setName(e.target.value)}
           value={name}
-        /><br/>
+        />
+        <br />
       </label>
       <button onClick={createNewUser}>Save</button>
     </div>
-  )
+  );
 }
